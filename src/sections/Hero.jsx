@@ -1,7 +1,7 @@
 import { FaGithub, FaLinkedin, FaDribbble, FaTwitter } from 'react-icons/fa6'
 import { useTheme } from '../context/ThemeContext'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
-import profileImage from '../../docs/assets/Che.png'
+import profileImage from '../assets/Che.png'
 
 export default function Hero() {
   const { colors, isDark } = useTheme()
@@ -241,7 +241,7 @@ export default function Hero() {
             <div style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '450px',
+              maxWidth: '500px',
               animation: 'float 6s ease-in-out infinite',
             }}>
               {/* Glowing background effect */}
@@ -250,39 +250,58 @@ export default function Hero() {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '85%',
-                height: '85%',
-                background: `radial-gradient(circle, ${colors.primary}40 0%, transparent 70%)`,
-                filter: 'blur(40px)',
+                width: '90%',
+                height: '90%',
+                background: `radial-gradient(circle, ${colors.primary}50 0%, ${colors.secondary}30 50%, transparent 70%)`,
+                filter: 'blur(60px)',
                 animation: 'pulse 4s ease-in-out infinite',
+                zIndex: 0,
               }} />
               
-              <img 
-                src={profileImage}
-                alt="Chethiya Nisheda" 
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  borderRadius: '2rem',
-                  boxShadow: isDark 
-                    ? `0 20px 60px ${colors.primary}30`
-                    : `0 20px 60px ${colors.primary}20`,
-                  border: `3px solid ${colors.border}`,
-                  position: 'relative',
-                  zIndex: 1,
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = 'scale(1.05) translateY(-5px)'
-                  e.target.style.boxShadow = `0 25px 70px ${colors.primary}40`
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = 'scale(1) translateY(0)'
-                  e.target.style.boxShadow = isDark 
-                    ? `0 20px 60px ${colors.primary}30`
-                    : `0 20px 60px ${colors.primary}20`
-                }}
-              />
+              {/* Image container with cropping */}
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                paddingBottom: '100%',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: `4px solid ${colors.primary}40`,
+                boxShadow: isDark 
+                  ? `0 20px 60px ${colors.primary}40, 0 0 80px ${colors.primary}20`
+                  : `0 20px 60px ${colors.primary}30, 0 0 80px ${colors.primary}15`,
+                background: `linear-gradient(135deg, ${colors.bg}, ${colors.bgSecondary})`,
+                zIndex: 1,
+              }}>
+                <img 
+                  src={profileImage}
+                  alt="Chethiya Nisheda" 
+                  style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    transition: 'all 0.3s ease',
+                    mixBlendMode: isDark ? 'lighten' : 'normal',
+                    opacity: 0.95,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateX(-50%) scale(1.05)'
+                    e.target.parentElement.style.boxShadow = isDark
+                      ? `0 25px 70px ${colors.primary}50, 0 0 100px ${colors.primary}30`
+                      : `0 25px 70px ${colors.primary}40, 0 0 100px ${colors.primary}25`
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateX(-50%) scale(1)'
+                    e.target.parentElement.style.boxShadow = isDark 
+                      ? `0 20px 60px ${colors.primary}40, 0 0 80px ${colors.primary}20`
+                      : `0 20px 60px ${colors.primary}30, 0 0 80px ${colors.primary}15`
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

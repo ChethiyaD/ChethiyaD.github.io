@@ -26,25 +26,25 @@ export const ThemeProvider = ({ children }) => {
   const theme = {
     isDark,
     colors: isDark ? {
-      primary: '#4ED7F1',
-      secondary: '#6FE6FC',
-      accent: '#A8F1FF',
-      highlight: '#FFFA8D',
-      bg: '#0f172a',
-      bgSecondary: '#1e293b',
-      text: '#f1f5f9',
-      textSecondary: '#cbd5e1',
-      border: '#334155',
+      primary: '#14b8a6',      // Teal/Cyan
+      secondary: '#06b6d4',    // Sky blue
+      accent: '#3b82f6',       // Blue
+      highlight: '#8b5cf6',    // Purple
+      bg: '#0f172a',           // Dark navy
+      bgSecondary: '#1e293b',  // Lighter navy
+      text: '#f8fafc',         // Almost white
+      textSecondary: '#94a3b8', // Gray
+      border: '#334155',       // Border gray
     } : {
-      primary: '#4ED7F1',
-      secondary: '#6FE6FC',
-      accent: '#A8F1FF',
-      highlight: '#FFFA8D',
-      bg: '#f0f9ff',
-      bgSecondary: '#ffffff',
-      text: '#0f172a',
-      textSecondary: '#64748b',
-      border: '#e2e8f0',
+      primary: '#14b8a6',      // Teal/Cyan
+      secondary: '#06b6d4',    // Sky blue
+      accent: '#3b82f6',       // Blue
+      highlight: '#8b5cf6',    // Purple
+      bg: '#ffffff',           // Pure white
+      bgSecondary: '#f8fafc',  // Very light gray
+      text: '#0f172a',         // Dark navy
+      textSecondary: '#64748b', // Medium gray
+      border: '#e2e8f0',       // Light border
     }
   };
 
