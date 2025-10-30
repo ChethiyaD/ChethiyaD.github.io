@@ -1,3 +1,4 @@
+import { ThemeProvider } from './context/ThemeContext'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Hero from './sections/Hero'
@@ -8,15 +9,17 @@ import Contact from './sections/Contact'
 
 function App() {
   return (
-    <div style={{ width: '100%' }}>
-      <Navigation />
-      <Hero />
-      <About />
-      <Services />
-      <Projects />
-      <Contact />
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div style={{ width: '100%', minHeight: '100vh' }}>
+        <Navigation />
+        <Hero />
+        <About />
+        <Services />
+        <Projects />
+        <Contact />
+        <Footer />
+      </div>
+    </ThemeProvider>
   )
 }
 
