@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { FaBars, FaXmark } from 'react-icons/fa6'
+import { FaBars, FaXmark, FaSun, FaMoon } from 'react-icons/fa6'
+import { useTheme } from '../context/ThemeContext'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { colors, isDark, toggleTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +30,9 @@ export default function Navigation() {
     left: 0,
     right: 0,
     zIndex: 50,
-    backgroundColor: isScrolled ? 'rgba(17, 24, 39, 0.95)' : 'transparent',
-    borderBottom: isScrolled ? '1px solid rgb(31, 41, 55)' : 'none',
+    backgroundColor: isScrolled ? `${colors.bg}f5` : 'transparent',
+    borderBottom: isScrolled ? `1px solid ${colors.border}` : 'none',
+    backdropFilter: isScrolled ? 'blur(10px)' : 'none',
     transition: 'all 0.3s ease',
   }
 
@@ -51,8 +54,12 @@ export default function Navigation() {
   const logoStyle = {
     fontSize: '1.5rem',
     fontWeight: 'bold',
-    color: 'white',
+    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
     textDecoration: 'none',
+    cursor: 'pointer',
   }
 
   const desktopMenuStyle = {
@@ -65,27 +72,44 @@ export default function Navigation() {
   }
 
   const linkStyle = {
-    color: '#d1d5db',
+    color: colors.text,
     textDecoration: 'none',
     fontWeight: '500',
     transition: 'color 0.3s ease',
   }
 
   const buttonStyle = {
-    padding: '0.5rem 1.5rem',
-    backgroundColor: '#f97316',
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#FF6B35',
     color: 'white',
     border: 'none',
     borderRadius: '0.5rem',
     fontWeight: '600',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+  }
+
+  const themeButtonStyle = {
+    width: '45px',
+    height: '45px',
+    borderRadius: '50%',
+    border: `2px solid ${colors.primary}`,
+    background: colors.bgSecondary,
+    color: colors.primary,
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.2rem',
+    transition: 'all 0.3s ease',
+    boxShadow: `0 4px 15px ${colors.primary}40`,
   }
 
   const mobileButtonStyle = {
     background: 'none',
     border: 'none',
-    color: 'white',
+    color: colors.text,
     fontSize: '1.5rem',
     cursor: 'pointer',
     display: 'none',
@@ -107,14 +131,35 @@ export default function Navigation() {
                 key={link.href}
                 href={link.href}
                 style={linkStyle}
-                onMouseEnter={(e) => (e.target.style.color = '#f97316')}
-                onMouseLeave={(e) => (e.target.style.color = '#d1d5db')}
+                onMouseEnter={(e) => (e.target.style.color = colors.primary)}
+                onMouseLeave={(e) => (e.target.style.color = colors.text)}
               >
                 {link.label}
               </a>
             ))}
-            <button style={buttonStyle} onMouseEnter={(e) => (e.target.style.backgroundColor = '#ea580c')} onMouseLeave={(e) => (e.target.style.backgroundColor = '#f97316')}>
+            <button 
+              style={buttonStyle} 
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#ea580c')} 
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#FF6B35')}
+            >
               Let's Talk
+            </button>
+            
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              style={themeButtonStyle}
+              aria-label="Toggle theme"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1) rotate(180deg)'
+                e.currentTarget.style.boxShadow = `0 6px 20px ${colors.primary}60`
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1) rotate(0deg)'
+                e.currentTarget.style.boxShadow = `0 4px 15px ${colors.primary}40`
+              }}
+            >
+              {isDark ? <FaSun /> : <FaMoon />}
             </button>
           </div>
 
@@ -130,8 +175,8 @@ export default function Navigation() {
         {/* Mobile Menu */}
         {isOpen && (
           <div style={{
-            backgroundColor: 'rgba(17, 24, 39, 0.95)',
-            borderBottom: '1px solid rgb(31, 41, 55)',
+            backgroundColor: `${colors.bg}f5`,
+            borderBottom: `1px solid ${colors.border}`,
             padding: '0.5rem',
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -143,25 +188,46 @@ export default function Navigation() {
                   style={{
                     display: 'block',
                     padding: '0.5rem 1rem',
-                    color: '#d1d5db',
+                    color: colors.text,
                     textDecoration: 'none',
                     borderRadius: '0.375rem',
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.color = '#f97316'
-                    e.target.style.backgroundColor = 'rgb(31, 41, 55)'
+                    e.target.style.backgroundColor = colors.bgSecondary
+                    e.target.style.color = colors.primary
                   }}
                   onMouseLeave={(e) => {
-                    e.target.style.color = '#d1d5db'
                     e.target.style.backgroundColor = 'transparent'
+                    e.target.style.color = colors.text
                   }}
                 >
                   {link.label}
                 </a>
               ))}
-              <button style={{ ...buttonStyle, width: '100%' }} onMouseEnter={(e) => (e.target.style.backgroundColor = '#ea580c')} onMouseLeave={(e) => (e.target.style.backgroundColor = '#f97316')}>
-                Let's Talk
+              
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                style={{
+                  margin: '0.5rem 1rem',
+                  padding: '0.75rem',
+                  borderRadius: '0.5rem',
+                  border: `2px solid ${colors.primary}`,
+                  background: colors.bgSecondary,
+                  color: colors.primary,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                {isDark ? <FaSun /> : <FaMoon />}
+                <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
               </button>
             </div>
           </div>
